@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage x:Class="Tasks.Views.AllTasks"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Tasks.ViewModels">
+    <ContentPage.BindingContext>
+        <viewModels:AllTasksViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <CollectionView ItemsSource="{Binding Tasks}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label FontSize="Large"
+                               Text="{Binding Title}" />
+                        <Label FontSize="Small"
+                               Text="{Binding Notes}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>
+

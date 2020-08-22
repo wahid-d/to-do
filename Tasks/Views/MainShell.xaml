@@ -32,5 +32,14 @@
                 <views:AllTasks />
             </ShellContent>
         </Tab>
+        <Tab Title="Add">
+            <Tab.Icon>
+                <FontImageSource FontFamily="fontIcon"
+                                 Glyph="&#xf271;" />
+            </Tab.Icon>
+            <ShellContent>
+                <views:AddTask />
+            </ShellContent>
+        </Tab>
     </TabBar>
 </Shell>

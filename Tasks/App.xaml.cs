@@ -11,6 +11,8 @@ namespace Tasks
         {
             InitializeComponent();
 
+            Device.SetFlags(new string[] { "Expander_Experimental" });
+
             MainPage = new MainShell();
         }
 

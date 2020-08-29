@@ -8,35 +8,61 @@
         <viewModels:AddTaskViewModel/>
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Expander">
+                <Setter Property="CollapseAnimationLength" Value="100"/>
+                <Setter Property="ExpandAnimationLength" Value="100"/>
+                <Setter Property="CollapseAnimationEasing" Value="CubicOut"/>
+                <Setter Property="ExpandAnimationEasing" Value="CubicOut"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <StackLayout Padding="30">
         <Label Text="{Binding TitleLabel}" FontSize="42" FontAttributes="Bold"/>
         <Entry Text="{Binding Title}" Placeholder="Enter some title" FontSize="24" FontAttributes="Bold"/>
 
         <BoxView HeightRequest="1" BackgroundColor="Black" Opacity=".2" Margin="20, 5"/>
 
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding NoteLabel}" FontSize="20" FontAttributes="Bold"/>
-            <Label Text="&#xf055;" FontFamily="fontIcon" VerticalOptions="CenterAndExpand"/>
-        </StackLayout>
-        <Entry Text="{Binding Note}" Placeholder="Notes..." FontSize="12" FontAttributes="Bold"/>
+        <Expander IsExpanded="{Binding NoteExpanded}">
+            <Expander.Header>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding NoteLabel}" FontSize="20" FontAttributes="Bold"/>
+                    <Label Text="{Binding NoteExpanderArrow}" FontFamily="fontIcon" VerticalOptions="CenterAndExpand"/>
+                </StackLayout>
+            </Expander.Header>
+            <Entry Text="{Binding Note}" Placeholder="Notes..." FontSize="12" FontAttributes="Bold"/>
+        </Expander>
 
         <BoxView HeightRequest="1" BackgroundColor="Black" Opacity=".2" Margin="20, 5"/>
 
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding DateLabel}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
-            <Switch IsToggled="{Binding HasDate}" HorizontalOptions="EndAndExpand"/>
-        </StackLayout>
-        <DatePicker Date="{Binding Date}" MaximumDate="2100/1/1" MinimumDate="2000/1/1" Format="D"/>
+        <Expander IsExpanded="{Binding Source={x:Reference hasDate}, Path=IsToggled}">
+            <Expander.Header>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding DateLabel}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding HasDate}" HorizontalOptions="EndAndExpand" x:Name="hasDate"/>
+                </StackLayout>
+            </Expander.Header>
+            <DatePicker Date="{Binding Date}" MaximumDate="2100/1/1" MinimumDate="2000/1/1" Format="D"/>
+        </Expander>
 
         <BoxView HeightRequest="1" BackgroundColor="Black" Opacity=".2" Margin="20, 5"/>
 
-        <StackLayout Orientation="Horizontal">
-            <Label Text="{Binding TimeLabel}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
-            <Switch IsToggled="{Binding HasTime}" HorizontalOptions="EndAndExpand"/>
-        </StackLayout>
-        <TimePicker Time="{Binding Time}" Format="t"/>
+        <Expander IsExpanded="{Binding Source={x:Reference hasTime}, Path=IsToggled}">
+            <Expander.Header>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding TimeLabel}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding HasTime}" HorizontalOptions="EndAndExpand" x:Name="hasTime"/>
+                </StackLayout>
+            </Expander.Header>
+
+            <TimePicker Time="{Binding Time}" Format="t"/>
+        </Expander>
 
         <BoxView HeightRequest="1" BackgroundColor="Black" Opacity=".2" Margin="20, 5"/>
 
+        <Button Text="Add" BackgroundColor="Gray" TextColor="White"
+                Command="{Binding AddCommand}"/>
     </StackLayout>
 </ContentPage>

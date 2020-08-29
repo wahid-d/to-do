@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Windows.Input;
 using MvvmHelpers;
+using MvvmHelpers.Commands;
+using Tasks.Models;
 
 namespace Tasks.ViewModels
 {
@@ -7,7 +10,25 @@ namespace Tasks.ViewModels
     {
         public AddTaskViewModel()
         {
+            AddCommand = new Command
+                (
+                    execute: () =>
+                    {
+                        var task = new Task()
+                        {
+                            Title = Title,
+                            Notes = Note,
+                            HasCompleted = false,
+                            DueDate = HasDate ? Date : new DateTime(),
+                            DueTime = HasTime ? Time : new DateTime()
+                        };
+                        Console.WriteLine($"{task.Title} {task.Notes}");
+                    },
+                    canExecute: () => { return !string.IsNullOrWhiteSpace(Title); }
+                );
         }
+
+        public ICommand AddCommand { get; private set; }
 
         bool _hasDate = false;
         public bool HasDate
@@ -41,7 +62,11 @@ namespace Tasks.ViewModels
         public string Title
         {
             get { return _title; }
-            set { SetProperty(ref _title, value); }
+            set
+            {
+                SetProperty(ref _title, value);
+                (AddCommand as Command).RaiseCanExecuteChanged();
+            }
         }
 
         private string _note = "Finish your homework by tomorrow";
@@ -78,5 +103,36 @@ namespace Tasks.ViewModels
             get { return _timeLabel; }
             set { SetProperty(ref _timeLabel, value); }
         }
+
+
+
+        private bool _noteExpanded = false;
+        public bool NoteExpanded
+        {
+            get { return _noteExpanded; }
+            set
+            {
+                SetProperty(ref _noteExpanded, value);
+                OnPropertyChanged(nameof(NoteExpanderArrow));
+            }
+        }
+
+        private string _noteExpanderArrow = "";
+        public string NoteExpanderArrow
+        {
+            get
+            {
+                if(NoteExpanded)
+                {
+                    return ((char)(0xf077)).ToString();
+                }
+                else
+                {
+                    return ((char)(0xf078)).ToString();
+                }
+            }
+        }
+
+        
     }
 }

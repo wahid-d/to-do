@@ -6,7 +6,7 @@ using Tasks.Models;
 
 namespace Tasks.ViewModels
 {
-    public class AddTaskViewModel : BaseViewModel
+    public class AddTaskViewModel : MainShellViewModel
     {
         public AddTaskViewModel()
         {
@@ -22,7 +22,7 @@ namespace Tasks.ViewModels
                             DueDate = HasDate ? Date : new DateTime(),
                             DueTime = HasTime ? Time : new DateTime()
                         };
-                        Console.WriteLine($"{task.Title} {task.Notes}");
+                        Tasks.Add(task);
                     },
                     canExecute: () => { return !string.IsNullOrWhiteSpace(Title); }
                 );
